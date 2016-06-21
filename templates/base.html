@@ -8,6 +8,9 @@
     </head>
     <body>
         <div class="container">
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'logout' %}?next=/">Logout</a>
+            <p class="pull-right" >{{ request.user }}</p>
             {% block body %}
                 default content
             {% endblock %}
