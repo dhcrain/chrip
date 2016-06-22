@@ -1,6 +1,6 @@
 from django.db import models
-
-# Create your models here.
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class Chrip(models.Model):
@@ -15,4 +15,18 @@ class Chrip(models.Model):
 class StopWord(models.Model):
     word = models.CharField(max_length=26)
 
-class 
+class Profile(models.Model):
+    user = models.OneToOneField('auth.User')
+    fav_bird = models.CharField(max_length=100, null=True)
+
+
+@receiver(post_save, sender='auth.User')
+def create_user_profile(**kwargs):
+    created = kwargs.get('created')
+    instance = kwargs.get('instance')
+    if created:
+        Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=StopWord)
+def say_hello(**kwargs):
+    print('hello world!')
