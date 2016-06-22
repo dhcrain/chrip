@@ -3,19 +3,41 @@
 {% block body %}
     <h1>Welcome Chirpers</h1>
     <h4>Chirps: {{ ammount }}</h4>
-    {% for chirp in object_list %}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">{{ chirp.bird }} <span class="pull-right">{{ chirp.created }}</span></h3>
+
+    <div class="row">
+        <div class="col-md-6">
+            {% for chirp in object_list %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ chirp.bird }} <span class="pull-right">{{ chirp.created }}</span></h3>
+                </div>
+                <div class="panel-body">
+                    {{ chirp.body }}
+                    <br>
+                    {% if chirp.bird == request.user %}
+                    <a href="{% url 'chirp_detail_view' chirp.pk %}">Click for Details</a>
+                    <a class="btn btn-danger pull-right" href="{% url 'chirp_delete_view' chirp.pk %}">Delete</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
         </div>
-        <div class="panel-body">
-            {{ chirp.body }}
-            <br>
-            {% if chirp.bird == request.user %}
-            <a href="{% url 'chirp_detail_view'  chirp.pk %}">Click for Details</a>
-            {% endif %}
+        {% if request.user.is_authenticated %}
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Chirp Something</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="" action="" method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <input class="btn btn-default" type="submit" name="chirp" value="Chirp !">
+                    </form>
+                </div>
+            </div>
         </div>
+        {% endif %}
     </div>
-    {% endfor %}
 
 {% endblock %}
