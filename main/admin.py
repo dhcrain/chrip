@@ -1,5 +1,5 @@
 from django.contrib import admin
-from main.models import Chrip
+from main.models import Chrip, StopWord
 # Register your models here.
 
 class ChripAdmin(admin.ModelAdmin):
@@ -7,3 +7,10 @@ class ChripAdmin(admin.ModelAdmin):
     search_fields = ['body']
 
 admin.site.register(Chrip, ChripAdmin)
+
+
+class StopWordAdmin(admin.ModelAdmin):
+    list_display = ['word']
+    search_fields = ['word']
+
+admin.site.register(StopWord, StopWordAdmin)

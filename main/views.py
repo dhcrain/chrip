@@ -3,7 +3,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic import ListView, DetailView, CreateView
 from django.views.generic.edit import CreateView
 
-from main.models import Chrip
+from main.models import Chrip, StopWord
 # Create your views here.
 
 
@@ -28,6 +28,16 @@ class ChirpCreateView(CreateView):
     success_url = '/'
 
     def form_valid(self, form):
+        stop_words = StopWord.objects.all()
+        # if trump clinton or sanders in body, add error
+        chirp_data = form.cleaned_data['body'].lower()
+        for stop_word in stop_words:
+            if stop_word.word in chirp_data:
+                form.add_error("body", "Can't we all get along")
+                return self.form_invalid(form)
+
+        # raise Exception(chirp_data) # test
+
         chirp = form.save(commit=False)
         chirp.bird = self.request.user
         return super().form_valid(form)
