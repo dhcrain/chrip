@@ -14,7 +14,6 @@ class IndexView(CreateView):
     fields = ['body']
     success_url = reverse_lazy('index_view')
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)     # if you want to extend your list view, must include this to keep functionality.
         context['ammount'] = Chrip.objects.all().count()
@@ -41,10 +40,10 @@ class ChirpDetailView(DetailView):
 
     def get_queryset(self):     # 90% of this use is for security
         return Chrip.objects.filter(bird=self.request.user)
-        
+
 
 class ProfileUpdateView(UpdateView):
-    fields = ['fav_bird']
+    fields = ['fav_bird', 'photo']
     success_url = reverse_lazy('profile_update_view')
 
     # overides the need for a pk in url

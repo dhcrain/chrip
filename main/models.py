@@ -17,8 +17,15 @@ class StopWord(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField('auth.User')
-    fav_bird = models.CharField(max_length=100, null=True)
+    fav_bird = models.CharField(max_length=100, null=True, verbose_name="Favorite Bird")
+    photo = models.ImageField(upload_to="profile_photos", null=True, blank=True, verbose_name="Profile Photo") # null makes it optional
 
+    @property
+    def photo_url(self):
+        if self.photo:
+            return self.photo.url
+        else:
+            return "http://www.sessionlogs.com/media/icons/defaultIcon.png"
 
 @receiver(post_save, sender='auth.User')
 def create_user_profile(**kwargs):

@@ -9,14 +9,20 @@
             {% for chirp in object_list %}
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{ chirp.bird }} <span class="pull-right">{{ chirp.created }}</span></h3>
+                    <h3 class="panel-title"><img class="thumb" src="{{ chirp.bird.profile.photo_url }}" alt="" />
+                        {{ chirp.bird }}</h3>
                 </div>
                 <div class="panel-body">
                     {{ chirp.body }}
                     <br>
                     {% if chirp.bird == request.user %}
                     <a href="{% url 'chirp_detail_view' chirp.pk %}">Click for Details</a>
-                    <a class="btn btn-danger pull-right" href="{% url 'chirp_delete_view' chirp.pk %}">Delete</a>
+                    <br>
+                    <form class="" action="{% url 'chirp_delete_view' chirp.pk %}" method="post">
+                        {% csrf_token %}
+                        <input type="submit" name="name" value="Delete Chrip">
+                    </form>
+                    <a class="btn btn-danger" href="{% url 'chirp_delete_view' chirp.pk %}">Delete</a>
                     {% endif %}
                 </div>
             </div>

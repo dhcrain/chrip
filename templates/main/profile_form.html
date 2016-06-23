@@ -2,7 +2,10 @@
 
 {% block body %}
     <h1>Update your Profile</h1>
-    <form class="" action="" method="post">
+    <img src="{{ object.photo_url }}" alt="Profile Photo" />
+    <br>
+    <br>
+    <form class="" action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <input class="btn btn-default" type="submit" name="update" value="Update">
