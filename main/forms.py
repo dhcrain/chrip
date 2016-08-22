@@ -1,4 +1,6 @@
 from django import forms
+from main.models import Profile
+
 
 class ProfileUpdateForm(forms.ModelForm):
 

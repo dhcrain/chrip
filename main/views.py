@@ -1,10 +1,8 @@
-from django.shortcuts import render
-from django.views.generic.base import TemplateView
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 
-from main.models import Chrip, StopWord, Profile
+from main.models import Chrip, StopWord
 # Create your views here.
 
 
@@ -28,12 +26,11 @@ class IndexView(CreateView):
             if stop_word.word in chirp_data:
                 form.add_error("body", "Can't we all get along")
                 return self.form_invalid(form)
-
         # raise Exception(chirp_data) # test
-
         chirp = form.save(commit=False)
         chirp.bird = self.request.user
         return super().form_valid(form)
+
 
 class ChirpDetailView(DetailView):
     model = Chrip
@@ -49,6 +46,7 @@ class ProfileUpdateView(UpdateView):
     # overides the need for a pk in url
     def get_object(self, query_set=None):
         return self.request.user.profile
+
 
 class ChirpDeleteView(DeleteView):
     success_url = reverse_lazy('index_view')

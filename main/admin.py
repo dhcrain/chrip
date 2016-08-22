@@ -2,6 +2,7 @@ from django.contrib import admin
 from main.models import Chrip, StopWord, Profile
 # Register your models here.
 
+
 class ChripAdmin(admin.ModelAdmin):
     list_display = ['body', 'bird']
     search_fields = ['body']
